@@ -31,8 +31,20 @@ struct rect {
 class drag {
 	// C&D
 public:
-	// provide working area
+	// provide starting area and border
 	drag(rect sArea) :bDragState(0), bFalse(0), sButtonArea(sArea) {
+		point nill;
+		nill.x = 0;
+		nill.y = 0;
+		sStart = nill;
+		sEnd = nill;
+		sBorder.bottom = 0;
+		sBorder.left = 0;
+		sBorder.right = 0;
+		sBorder.top = 0;
+	}
+	// provide starting, no border will be applied
+	drag(rect sArea, rect sBorders) :bDragState(0), bFalse(0), sButtonArea(sArea), sBorder(sBorders) {
 		point nill;
 		nill.x = 0;
 		nill.y = 0;
@@ -54,9 +66,12 @@ public:
 				// update
 				sEnd.x = sCursor.x;
 				sEnd.y = sCursor.y;
+				if (!isIn(sCursor, sBorder) || sBorder.right > 0) {
+					sEnd = border(sEnd, sBorder);
+				}
 			}
 			else {
-				if (isIn(sCursor) && !bFalse) {
+				if (isIn(sCursor, sButtonArea) && !bFalse) {
 					// on left button down in area
 					sStart.x = sCursor.x;
 					sStart.y = sCursor.y;
@@ -77,6 +92,9 @@ public:
 				// on left button up
 				sEnd.x = sCursor.x;
 				sEnd.y = sCursor.y;
+				if (!isIn(sCursor, sBorder) || sBorder.right > 0) {
+					sEnd = border(sEnd, sBorder);
+				}
 				// end dragging
 				bDragState = false;
 			}
@@ -119,11 +137,11 @@ public:
 		ret.y = calcActiveArea().bottom;
 		return ret;
 	}
-	// return vector between start and end points
+	// return axis distances between start and end points
 	point	getResult() const {
 		point ret;
-		ret.x = abs(sStart.x - sEnd.x);
-		ret.y = abs(sStart.y - sEnd.y);
+		ret.x = sEnd.x - sStart.x;
+		ret.y = sEnd.y - sStart.y;
 		return ret;
 	}
 
@@ -135,10 +153,17 @@ public:
 	void	setButtonArea(rect sNewArea) {
 		sButtonArea = sNewArea;
 	}
+	rect	getBorderArea() const {
+		return sBorder;
+	}
+	void	setBorderArea(rect sNewBorder) {
+		sBorder = sNewBorder;
+	}
 
 	// ATR
 private:
 	rect	sButtonArea;	// area from which the drag starts
+	rect	sBorder;		// border of dragging
 	point	sStart;			// starting point
 	point	sEnd;			// ending point
 	bool	bDragState;		// status of the drag
@@ -147,11 +172,11 @@ private:
 	// HELP
 private:
 	// calculate if point is in rectangle
-	bool	isIn(point sCursor) {
-		if (sCursor.x <= sButtonArea.right &&
-			sCursor.x >= sButtonArea.left &&
-			sCursor.y <= sButtonArea.bottom &&
-			sCursor.y >= sButtonArea.top) {
+	bool	isIn(point sCursor, rect sArea) {
+		if (sCursor.x <= sArea.right &&
+			sCursor.x >= sArea.left &&
+			sCursor.y <= sArea.bottom &&
+			sCursor.y >= sArea.top) {
 			return true;
 		}
 		return false;
@@ -179,11 +204,16 @@ private:
 		}
 		return ret;
 	}
-	// calculate absolute value
-	int		abs(signed int value) const {
-		if (value < 0) {
-			return (-1 * value);
-		}
-		return value;
+	// cut position up to the borders
+	point	border(point sIn, rect sBor) {
+		if (sIn.x > sBor.right)
+			sIn.x = sBor.right;
+		if (sIn.x < sBor.left)
+			sIn.x = sBor.left;
+		if (sIn.y > sBor.bottom)
+			sIn.y = sBor.bottom;
+		if (sIn.y < sBor.top)
+			sIn.y = sBor.top;
+		return sIn;
 	}
 };

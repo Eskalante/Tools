@@ -79,3 +79,15 @@ point ptp(POINT in) {
 	ret.y = in.y;
 	return ret;
 }
+
+// prepare output string
+String writeString(String strText, point sCur) {
+	char ch[255];
+	String ret = strText;
+	_itoa_s(sCur.x, ch, 10);
+	ret += ch;
+	ret += " ";
+	_itoa_s(sCur.y, ch, 10);
+	ret += ch;
+	return ret;
+}
