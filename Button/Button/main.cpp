@@ -1,16 +1,16 @@
-/****************************************************/
-/*													*/
-/*	Author:		Eskalante							*/
-/*	Desc.:		Example usage of drag using OpenCV.	*/
-/*													*/
-/****************************************************/
+/********************************************************/
+/*														*/
+/*	Author:		Eskalante								*/
+/*	Desc.:		Example usage of button using OpenCV.	*/
+/*														*/
+/********************************************************/
 
 #include <iostream>
 #include <Windows.h>
 
 #include <opencv2\opencv.hpp>
 
-#include "drag.h"
+#include "button.h"
 #include "functions.h"
 
 using namespace std;
@@ -22,7 +22,6 @@ using namespace cv;
 int main() {
 	// init
 	bool exitapp = false;
-	drag d(rect(100, 100, 200, 200)); // drag will start from this area
 	// opencv
 	namedWindow("Main", WINDOW_NORMAL);
 	setMouseCallback("Main", mouse, NULL);
@@ -34,15 +33,13 @@ int main() {
 	while (!exitapp) {
 		// clear
 		screen = Scalar(255.0, 0.0, 0.0); // paint back buffer with blue color
-		rectangle(screen, rtr(d.getButtonArea()), Scalar(155.0, 0, 155.0), -1); // highlight starting area
-		// TODO
+										  // TODO
 		if (d.update(ptp(cur), click)) { // update coordinates
 			area = rtr(d.getActiveArea()); // get current dragging area
-			rectangle(screen, area, Scalar(255.0, 255.0, 255.0), 1); // draw this area with white rectangle 
-			line(screen, ptp(d.getStart()), ptp(d.getEnd()), Scalar(0.0, 0.0, 255, 0)); // draw line from start to end
+			rectangle(screen, area, Scalar(255.0, 255.0, 255.0, 0.5), 1); // draw this area with white rectangle 
 		}
 		else
-			rectangle(screen, area, Scalar(255.0, 255.0, 255.0), -1); // after dragging leave filled white rectangle
+			rectangle(screen, area, Scalar(255.0, 255.0, 255.0, 0.5), -1); // after dragging leave filled white rectangle
 		if (GetAsyncKeyState(VK_SPACE) & 0x8000) // press Space for reset
 			area = Rect();
 		// show

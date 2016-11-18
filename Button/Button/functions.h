@@ -11,7 +11,7 @@
 #include <Windows.h>
 #include <opencv2\opencv.hpp>
 
-#include "drag.h"
+#include "button.h"
 
 using namespace std;
 using namespace cv;
@@ -58,17 +58,17 @@ void mouse(int event, int x, int y, int flags, void* userdata)
 // conversions
 Rect rtr(rect in) {
 	Rect ret;
-	ret.x=in.left;
-	ret.y=in.top;
-	ret.width=in.right-in.left;
-	ret.height=in.bottom-in.top;
+	ret.x = in.left;
+	ret.y = in.top;
+	ret.width = in.right - in.left;
+	ret.height = in.bottom - in.top;
 	return ret;
 }
 rect rtr(Rect in) {
-	return rect(in.y, in.x, (in.x+in.width), (in.y+in.height));
+	return rect(in.y, in.x, (in.x + in.width), (in.y + in.height));
 }
-Point ptp(point in) {
-	Point ret;
+POINT ptp(point in) {
+	POINT ret;
 	ret.x = in.x;
 	ret.y = in.y;
 	return ret;

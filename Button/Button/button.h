@@ -3,9 +3,9 @@
 /****************************************/
 /*										*/
 /*	Author:		Eskalante				*/
-/*	Name:		Drag					*/
-/*	Version:	1.1						*/
-/*	Desc.:		Tool for mouse drag.	*/
+/*	Name:		Button					*/
+/*	Version:	1.0						*/
+/*	Desc.:		Tool for buttons.		*/
 /*										*/
 /****************************************/
 
@@ -19,7 +19,7 @@ struct rect {
 	rect() {
 
 	}
-	rect(int t, int l, int r, int b):top(t), left(l), right(r), bottom(b){
+	rect(int t, int l, int r, int b) :top(t), left(l), right(r), bottom(b) {
 
 	}
 	signed int top;
@@ -28,18 +28,18 @@ struct rect {
 	signed int bottom;
 };
 
-class drag {
+class button {
 	// C&D
 public:
 	// provide working area
-	drag(rect sArea) :bDragState(0), bFalse(0), sButtonArea(sArea) {
+	button(rect sArea) :bDragState(0), sButtonArea(sArea) {
 		point nill;
 		nill.x = 0;
 		nill.y = 0;
 		sStart = nill;
 		sEnd = nill;
 	}
-	virtual	~drag() {
+	virtual	~button() {
 
 	}
 
@@ -47,7 +47,7 @@ public:
 public:
 	// call in main cycle
 	// INPUT: current cursor position, state of mouse left button (down=true)
-	// OUTPUT: state of drag (dragging=true)
+	// OUTPUT: state of button (pushed=true)
 	bool	update(point sCursor, bool bLeftButton = false) {
 		if (bLeftButton) {
 			if (bDragState) {
@@ -56,21 +56,17 @@ public:
 				sEnd.y = sCursor.y;
 			}
 			else {
-				if (isIn(sCursor) && !bFalse) {
+				if (isIn(sCursor))
 					// on left button down
 					sStart.x = sCursor.x;
-					sStart.y = sCursor.y;
-					sEnd.x = sCursor.x;
-					sEnd.y = sCursor.y;
-					// start dragging
-					bDragState = true;
-				}
-				else
-					bFalse = true;
+				sStart.y = sCursor.y;
+				sEnd.x = sCursor.x;
+				sEnd.y = sCursor.y;
+				// start dragging
+				bDragState = true;
 			}
 		}
 		else {
-			bFalse = false;
 			if (bDragState) {
 				// on left button up
 				sEnd.x = sCursor.x;
@@ -86,12 +82,6 @@ public:
 public:
 	rect	getActiveArea() const {
 		return calcActiveArea();
-	}
-	point	getStart() const {
-		return sStart;
-	}
-	point	getEnd() const {
-		return sEnd;
 	}
 	point	getTopLeft() const {
 		point ret;
@@ -140,7 +130,6 @@ private:
 	point	sStart;			// starting point
 	point	sEnd;			// ending point
 	bool	bDragState;		// status of the drag
-	bool	bFalse;			// allreadz pushed cursor entered working area
 
 	// HELP
 private:
