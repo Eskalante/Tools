@@ -57,7 +57,7 @@ public:
 			}
 			else {
 				if (isIn(sCursor) && !bFalse) {
-					// on left button down
+					// on left button down in area
 					sStart.x = sCursor.x;
 					sStart.y = sCursor.y;
 					sEnd.x = sCursor.x;
@@ -66,10 +66,12 @@ public:
 					bDragState = true;
 				}
 				else
+					// false activation, button was allready pushed outside
 					bFalse = true;
 			}
 		}
 		else {
+			// reset false state
 			bFalse = false;
 			if (bDragState) {
 				// on left button up
