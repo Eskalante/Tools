@@ -69,11 +69,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\libs\opencv\build_3.1.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\projekty\tools\Tools\Drag\Drag;D:\libs\opencv\build_3.1.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\libs\opencv\build_3.1.0\x64\vc14\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\libs\opencv\build_3.1.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\projekty\tools\Tools\Drag\Drag;D:\libs\opencv\build_3.1.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\libs\opencv\build_3.1.0\x64\vc14\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -124,8 +124,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Drag\Drag\drag.h" />
-    <ClInclude Include="..\..\Drag\Drag\functions.h" />
+    <ClInclude Include="area.h" />
+    <ClInclude Include="drag.h" />
+    <ClInclude Include="functions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
