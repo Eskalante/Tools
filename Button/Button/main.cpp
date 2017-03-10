@@ -31,7 +31,7 @@ int main() {
 	cur.y = 0;
 	RNG rng(12345);
 	Scalar color(255.0, 0.0, 0.0);
-	// loop
+	// main loop
 	while (!exitapp) {
 		// clear
 		screen = color; // paint back buffer with color
